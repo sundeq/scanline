@@ -33,9 +33,9 @@ int main(int argc, char **argv) {
     buckets[1][1] = edge3;
     EdgeTable *edgeTable = initEdgeTable(buckets, n_buckets);
 
-    printf("edge 1 y_max: %d\n", buckets[0][0]->y_max);
-    printf("edge 2 y_max: %d\n", buckets[1][0]->y_max);
-    printf("edge 3 y_max: %d\n", buckets[1][1]->y_max);
+    printf("edge 1 y_max: %d\n", edgeTable->buckets[0][0]->y_max);
+    printf("edge 2 y_max: %d\n", edgeTable->buckets[1][0]->y_max);
+    printf("edge 3 y_max: %d\n", edgeTable->buckets[1][1]->y_max);
 }
 
 Edge *initEdge(int y_max, int x_min, double inv_m) {
@@ -47,5 +47,8 @@ Edge *initEdge(int y_max, int x_min, double inv_m) {
 }
 
 EdgeTable *initEdgeTable(Edge ***buckets,int n_buckets) {
-    
+    EdgeTable *edgeTable = (EdgeTable *) malloc(sizeof(EdgeTable));
+    edgeTable->buckets = buckets;
+    edgeTable->n_buckets = n_buckets;
+    return edgeTable;
 }
