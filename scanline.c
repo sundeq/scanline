@@ -1,23 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-struct Edge {
-    int y_max;
-    int x_min;
-    double inv_m;
-};
-
-typedef struct Edge Edge;
-
-struct EdgeTable {
-    Edge ***buckets;
-    int n_buckets;
-};
-
-typedef struct EdgeTable EdgeTable;
-
-Edge *initEdge(int y_max, int x_min, double inv_m);
-EdgeTable *initEdgeTable(Edge ***buckets,int n_buckets);
+#include "edge_data_structs.h"
 
 int main(int argc, char **argv) {
     Edge *edge1 = initEdge(10, 0, 1);
@@ -38,17 +21,3 @@ int main(int argc, char **argv) {
     printf("edge 3 y_max: %d\n", edgeTable->buckets[1][1]->y_max);
 }
 
-Edge *initEdge(int y_max, int x_min, double inv_m) {
-    Edge *edge = (Edge *) malloc(sizeof(Edge));
-    edge->y_max = y_max;
-    edge->x_min = x_min;
-    edge->inv_m = inv_m;
-    return edge;
-}
-
-EdgeTable *initEdgeTable(Edge ***buckets,int n_buckets) {
-    EdgeTable *edgeTable = (EdgeTable *) malloc(sizeof(EdgeTable));
-    edgeTable->buckets = buckets;
-    edgeTable->n_buckets = n_buckets;
-    return edgeTable;
-}
