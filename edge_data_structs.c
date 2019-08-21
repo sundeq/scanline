@@ -4,17 +4,17 @@
 
 Edge *edgeFromTuples(int x1, int y1, int x2, int y2) {
     int y_max = y1 > y2 ? y1 : y2;
-    int x_min = x1 <= x2 ? x1 : x2;
+    double x_min = (double) ( x1 <= x2 ? x1 : x2);
     double dy = (double) y2 - y1;
     double dx = (double) x2 - x1;
     double inv_m = 1 / (dy / dx);
     return initEdge(y_max, x_min, inv_m);
 }
 
-Edge *initEdge(int y_max, int x_min, double inv_m) {
+Edge *initEdge(int y_max, double x_min, double inv_m) {
     Edge *edge = (Edge *) malloc(sizeof(Edge));
     edge->y_max = y_max;
-    edge->x_min = x_min;
+    edge->x = x_min;
     edge->inv_m = inv_m;
     return edge;
 }
