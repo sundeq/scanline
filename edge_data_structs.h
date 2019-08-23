@@ -16,8 +16,8 @@ struct EdgeTable {
     int n_buckets;
 };
 
-Edge *edgeFromTuples(int x1, int y1, int x2, int y2);
-Edge *initEdge(int y_max, double x_min, double inv_m);
-EdgeTable *initEdgeTable(Edge ***buckets,int n_buckets);
+Edge *edge_from_tuples(int x1, int y1, int x2, int y2);
+Edge *init_edge(int y_max, double x_min, double inv_m);
+EdgeTable *init_edge_table(Edge ***buckets,int n_buckets);
 
 #endif
