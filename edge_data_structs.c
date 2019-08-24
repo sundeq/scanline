@@ -3,33 +3,55 @@
 #include "edge_data_structs.h"
 
 Edge *edge_from_tuples(int x1, int y1, int x2, int y2) {
-    int y_max = y1 > y2 ? y1 : y2;
+    int y_max = y1 > y2 ? y2 : y1;
+    int y_min = y1 < y2 ? y1 : y2;
     double x_min = (double) ( x1 <= x2 ? x1 : x2);
     double dy = (double) y2 - y1;
     double dx = (double) x2 - x1;
     double inv_m = 1 / (dy / dx);
-    return init_edge(y_max, x_min, inv_m);
+    return init_edge(y_max, y_min, x_min, inv_m);
 }
 
-Edge *init_edge(int y_max, double x_min, double inv_m) {
+Edge *init_edge(int y_max, int y_min, double x_min, double inv_m) {
     Edge *edge = (Edge *) malloc(sizeof(Edge));
     edge->y_max = y_max;
+    edge->y_min = y_min;
     edge->x = x_min;
     edge->inv_m = inv_m;
     return edge;
 }
 
-EdgeTable *init_edge_table(Edge ***buckets,int n_buckets) {
+EdgeTable *init_edge_table(int n_buckets) {
+    int i;
     EdgeTable *edgeTable = (EdgeTable *) malloc(sizeof(EdgeTable));
+    EdgeList **buckets = (EdgeList **) malloc(sizeof(EdgeList *) * n_buckets);
+    for (i = 0; i < n_buckets; i++) {
+        buckets[i] = (EdgeList *) malloc(sizeof(EdgeList));
+        buckets[i]->n_edges = 0;
+        buckets[i]->list = NULL;
+    }
     edgeTable->buckets = buckets;
     edgeTable->n_buckets = n_buckets;
     return edgeTable;
 }
 
+void add_to_edge_table(EdgeTable *edge_table, Edge *edge) {
+    EdgeList *bucket = edge_table->buckets[edge->y_min];
+    bucket->n_edges++;
+    if (bucket->list == NULL) {
+        bucket->list = (Edge **) malloc(sizeof(Edge *));
+        bucket->list[0] = edge;
+    } else {
+        bucket->list = (Edge **) realloc(bucket->list, bucket->n_edges * sizeof(Edge *));
+        bucket->list[bucket->n_edges - 1] = edge;
+    }
+    edge_table->buckets[edge->y_min] = bucket;
+}
+
 void print_edge_list(Edge **edge_list, int n_elems) {
     printf("########## EDGE LIST #################\n");
     for (int i = 0; i < n_elems; i++) {
-        printf("List elem %d, ym: %d x: %f, 1/m: %f\n", i, edge_list[i]->y_max, edge_list[i]->x, edge_list[i]->inv_m);
+        printf("List elem %d, ymax: %d, ymin: %d, x: %f, 1/m: %f\n", i, edge_list[i]->y_max, edge_list[i]->y_min, edge_list[i]->x, edge_list[i]->inv_m);
     }
     printf("######################################\n");
 }
