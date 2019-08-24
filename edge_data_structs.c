@@ -25,3 +25,11 @@ EdgeTable *init_edge_table(Edge ***buckets,int n_buckets) {
     edgeTable->n_buckets = n_buckets;
     return edgeTable;
 }
+
+void print_edge_list(Edge **edge_list, int n_elems) {
+    printf("########## EDGE LIST #################\n");
+    for (int i = 0; i < n_elems; i++) {
+        printf("List elem %d, ym: %d x: %f, 1/m: %f\n", i, edge_list[i]->y_max, edge_list[i]->x, edge_list[i]->inv_m);
+    }
+    printf("######################################\n");
+}
