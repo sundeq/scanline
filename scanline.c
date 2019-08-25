@@ -31,7 +31,6 @@ int main(int argc, char **argv) {
         }
     }
 
-
     EdgeList *active_edges = (EdgeList *) malloc(sizeof(EdgeList));
     EdgeList *temp_active_edges;
     active_edges->list = NULL;
@@ -65,7 +64,12 @@ int main(int argc, char **argv) {
                     }
                     pixel_mesh[i][j] = fill;
                 }
+            } else {
+                for (j = 0; j < pixel_mesh_w; j++) {
+                   pixel_mesh[i][j] = 0; 
+                }
             }
+
 
             k = 0;
             temp_active_edges = (EdgeList *) malloc(sizeof(EdgeList));
@@ -83,8 +87,6 @@ int main(int argc, char **argv) {
                 }
             }
             active_edges = temp_active_edges;
-
-
 
         }
 
