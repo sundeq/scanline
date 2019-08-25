@@ -36,16 +36,18 @@ EdgeTable *init_edge_table(int n_buckets) {
 }
 
 void add_to_edge_table(EdgeTable *edge_table, Edge *edge) {
-    EdgeList *bucket = edge_table->buckets[edge->y_min];
-    bucket->n_edges++;
-    if (bucket->list == NULL) {
-        bucket->list = (Edge **) malloc(sizeof(Edge *));
-        bucket->list[0] = edge;
-    } else {
-        bucket->list = (Edge **) realloc(bucket->list, bucket->n_edges * sizeof(Edge *));
-        bucket->list[bucket->n_edges - 1] = edge;
+    if (edge->y_min != edge->y_max) {
+        EdgeList *bucket = edge_table->buckets[edge->y_min];
+        bucket->n_edges++;
+        if (bucket->list == NULL) {
+            bucket->list = (Edge **) malloc(sizeof(Edge *));
+            bucket->list[0] = edge;
+        } else {
+            bucket->list = (Edge **) realloc(bucket->list, bucket->n_edges * sizeof(Edge *));
+            bucket->list[bucket->n_edges - 1] = edge;
+        }
+        edge_table->buckets[edge->y_min] = bucket;
     }
-    edge_table->buckets[edge->y_min] = bucket;
 }
 
 void print_edges(Edge **edges, int n_elems) {
