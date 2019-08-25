@@ -3,7 +3,7 @@
 #include "edge_data_structs.h"
 
 Edge *edge_from_tuples(int x1, int y1, int x2, int y2) {
-    int y_max = y1 > y2 ? y2 : y1;
+    int y_max = y1 > y2 ? y1 : y2;
     int y_min = y1 < y2 ? y1 : y2;
     double x_min = (double) ( x1 <= x2 ? x1 : x2);
     double dy = (double) y2 - y1;
@@ -23,16 +23,16 @@ Edge *init_edge(int y_max, int y_min, double x_min, double inv_m) {
 
 EdgeTable *init_edge_table(int n_buckets) {
     int i;
-    EdgeTable *edgeTable = (EdgeTable *) malloc(sizeof(EdgeTable));
+    EdgeTable *edge_table = (EdgeTable *) malloc(sizeof(EdgeTable));
     EdgeList **buckets = (EdgeList **) malloc(sizeof(EdgeList *) * n_buckets);
     for (i = 0; i < n_buckets; i++) {
         buckets[i] = (EdgeList *) malloc(sizeof(EdgeList));
         buckets[i]->n_edges = 0;
         buckets[i]->list = NULL;
     }
-    edgeTable->buckets = buckets;
-    edgeTable->n_buckets = n_buckets;
-    return edgeTable;
+    edge_table->buckets = buckets;
+    edge_table->n_buckets = n_buckets;
+    return edge_table;
 }
 
 void add_to_edge_table(EdgeTable *edge_table, Edge *edge) {
@@ -48,10 +48,10 @@ void add_to_edge_table(EdgeTable *edge_table, Edge *edge) {
     edge_table->buckets[edge->y_min] = bucket;
 }
 
-void print_edge_list(Edge **edge_list, int n_elems) {
+void print_edges(Edge **edges, int n_elems) {
     printf("########## EDGE LIST #################\n");
     for (int i = 0; i < n_elems; i++) {
-        printf("List elem %d, ymax: %d, ymin: %d, x: %f, 1/m: %f\n", i, edge_list[i]->y_max, edge_list[i]->y_min, edge_list[i]->x, edge_list[i]->inv_m);
+        printf("List elem %d, ymax: %d, ymin: %d, x: %f, 1/m: %f\n", i, edges[i]->y_max, edges[i]->y_min, edges[i]->x, edges[i]->inv_m);
     }
     printf("######################################\n");
 }
